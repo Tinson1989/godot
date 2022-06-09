@@ -146,9 +146,11 @@ char *wc_to_utf8(const wchar_t *wc) {
 	return ubuf;
 }
 
+//window的程序入口
 int widechar_main(int argc, wchar_t **argv) {
+	//操作系统相关的内容
 	OS_Windows os(nullptr);
-
+	//Setlocale是一个计算机函数，功能是用来配置地域的信息，设置当前程序使用的本地化信息
 	setlocale(LC_CTYPE, "");
 
 	char **argv_utf8 = new char *[argc];

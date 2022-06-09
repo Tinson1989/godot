@@ -545,39 +545,46 @@ int Main::test_entrypoint(int argc, char *argv[], bool &tests_need_run) {
 	return 0;
 }
 
-/* Engine initialization
+/* Engine initialization 引擎初始化
  *
  * Consists of several methods that are called by each platform's specific main(argc, argv).
  * To fully understand engine init, one should therefore start from the platform's main and
  * see how it calls into the Main class' methods.
+ * 由每个平台的特定 main(argc, argv) 调用的几个方法组成。
+ * 因此，要完全理解引擎初始化，应该从平台的 main 开始，看看它是如何调用 Main 类的方法的。
  *
  * The initialization is typically done in 3 steps (with the setup2 step triggered either
  * automatically by setup, or manually in the platform's main).
+ * 初始化通常分 3 个步骤完成（setup2 步骤由 setup 自动触发，或在平台的 main 中手动触发）。
  *
  * - setup(execpath, argc, argv, p_second_phase) is the main entry point for all platforms,
  *   responsible for the initialization of all low level singletons and core types, and parsing
  *   command line arguments to configure things accordingly.
+ *	 setup(execpath, argc, argv, p_second_phase) 是所有平台的主要入口点，负责初始化所有低级单例和核心类型，并解析命令行参数以进行相应的配置。
  *   If p_second_phase is true, it will chain into setup2() (default behaviour). This is
  *   disabled on some platforms (Android, iOS, UWP) which trigger the second step in their
  *   own time.
- *
+ *	如果 p_second_phase 为真，它将链接到 setup2() （默认行为）。 这在某些平台（Android、iOS、UWP）上被禁用，它们会在自己的时间触发第二步。
  * - setup2(p_main_tid_override) registers high level servers and singletons, displays the
  *   boot splash, then registers higher level types (scene, editor, etc.).
- *
+ *	setup2(p_main_tid_override) 注册高级服务器和单例，显示启动启动画面，然后注册更高级别的类型（场景、编辑器等）。
  * - start() is the last step and that's where command line tools can run, or the main loop
  *   can be created eventually and the project settings put into action. That's also where
  *   the editor node is created, if relevant.
+ *	 start() 是最后一步，这就是命令行工具可以运行的地方，或者最终可以创建主循环并将项目设置付诸实施。 如果相关，这也是创建编辑器节点的地方。
  *   start() does it own argument parsing for a subset of the command line arguments described
  *   in help, it's a bit messy and should be globalized with the setup() parsing somehow.
+ *	 start() 对帮助中描述的命令行参数的子集进行自己的参数解析，这有点混乱，应该以某种方式通过 setup() 解析进行全球化。
  */
-
+//引擎初始化
 Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_phase) {
+	//系统相关的初始化
 	OS::get_singleton()->initialize();
-
+	//新建一个engine
 	engine = memnew(Engine);
 
 	MAIN_PRINT("Main: Initialize CORE");
-
+	//注册核心类型
 	register_core_types();
 	register_core_driver_types();
 
@@ -586,16 +593,18 @@ Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_ph
 	input_map = memnew(InputMap);
 	time_singleton = memnew(Time);
 	globals = memnew(ProjectSettings);
-
+	//注册核心配置？
 	register_core_settings(); //here globals are present
 
 	translation_server = memnew(TranslationServer);
 	performance = memnew(Performance);
+	//注册接口给脚本使用
 	GDREGISTER_CLASS(Performance);
 	engine->add_singleton(Engine::Singleton("Performance", performance));
 
 	// Only flush stdout in debug builds by default, as spamming `print()` will
 	// decrease performance if this is enabled.
+	//默认情况下，仅在调试版本中刷新标准输出，因为如果启用此功能，发送垃圾邮件 `print()` 会降低性能。
 	GLOBAL_DEF_RST("application/run/flush_stdout_on_print", false);
 	GLOBAL_DEF_RST("application/run/flush_stdout_on_print.debug", true);
 
@@ -604,7 +613,7 @@ Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_ph
 
 	MAIN_PRINT("Main: Parse CMDLine");
 
-	/* argument parsing and main creation */
+	/* 参数解析和主要创建*/
 	List<String> args;
 	List<String> main_args;
 
@@ -663,7 +672,9 @@ Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_ph
 	while (I) {
 #ifdef OSX_ENABLED
 		// Ignore the process serial number argument passed by macOS Gatekeeper.
+		//忽略 macOS Gatekeeper 传递的进程序列号参数。
 		// Otherwise, Godot would try to open a non-existent project on the first start and abort.
+		//否则，Godot 会在第一次启动时尝试打开一个不存在的项目并中止。
 		if (I->get().begins_with("-psn_")) {
 			I = I->next();
 			continue;
