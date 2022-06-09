@@ -41,6 +41,7 @@ class StyleBox;
 class Window;
 class World2D;
 
+//CanvasItem 是所有 2D 节点的基类
 class CanvasItem : public Node {
 	GDCLASS(CanvasItem, Node);
 

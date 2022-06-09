@@ -450,7 +450,7 @@ public:                                                                 \
 private:
 
 class ScriptInstance;
-
+//基础类
 class Object {
 public:
 	enum ConnectFlags {

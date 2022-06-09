@@ -34,7 +34,8 @@
 #include "core/error/error_list.h"
 #include "core/os/thread.h"
 #include "core/typedefs.h"
-
+//Godot Engine 的生命周期管理对象，setup 对系统进行了参数解析并初始化操作，
+//包括引擎内部对象的创建，根据参数判断是需要启动 “项目管理器”，“编辑器”，“游戏”，“场景”，“脚本”等
 class Main {
 	static void print_help(const char *p_binary);
 	static uint64_t last_ticks;

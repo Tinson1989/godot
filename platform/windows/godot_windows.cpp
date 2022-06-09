@@ -171,9 +171,12 @@ int widechar_main(int argc, wchar_t **argv) {
 		return 255;
 	}
 
+	//根据不同参数判断系统所需的 MainLoop 对象
 	if (Main::start()) {
+		//进入引擎主循环
 		os.run();
 	}
+	//做好清场工作
 	Main::cleanup();
 
 	for (int i = 0; i < argc; ++i) {

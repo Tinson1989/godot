@@ -765,14 +765,16 @@ String OS_Windows::get_processor_name() const {
 	}
 }
 
+//Godot Engine 的主循环
 void OS_Windows::run() {
 	if (!main_loop) {
 		return;
 	}
-
+	//MainLoop初始化
 	main_loop->initialize();
 
 	while (!force_quit) {
+		//// 输入事件
 		DisplayServer::get_singleton()->process_events(); // get rid of pending events
 		if (Main::iteration()) {
 			break;

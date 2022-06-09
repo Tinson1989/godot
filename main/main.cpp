@@ -576,7 +576,7 @@ int Main::test_entrypoint(int argc, char *argv[], bool &tests_need_run) {
  *   in help, it's a bit messy and should be globalized with the setup() parsing somehow.
  *	 start() 对帮助中描述的命令行参数的子集进行自己的参数解析，这有点混乱，应该以某种方式通过 setup() 解析进行全球化。
  */
-//引擎初始化
+//对系统进行了参数解析并初始化操作,包括引擎内部对象的创建，根据参数判断是需要启动 “项目管理器”，“编辑器”，“游戏”，“场景”，“脚本”等
 Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_phase) {
 	//系统相关的初始化
 	OS::get_singleton()->initialize();
@@ -1597,7 +1597,7 @@ error:
 
 	return ERR_INVALID_PARAMETER;
 }
-
+//这里初始化了音频/ARVR/物理引擎等各 Servers。
 Error Main::setup2(Thread::ID p_main_tid_override) {
 	tsman = memnew(TextServerManager);
 
@@ -2031,6 +2031,10 @@ String Main::get_rendering_driver_name() {
 // everything the main loop needs to know about frame timings
 static MainTimerSync main_timer_sync;
 
+//根据不同参数判断系统所需的 MainLoop 对象
+//editor 的 MainLoop 为 SceneTree ，  UI 对象为： EditorNode
+//project_manager 的 MainLoop 为 SceneTree， UI 对象为：ProjectManager
+//如果是执行脚本，则会根据脚本创建对应的 MainLoop 对象
 bool Main::start() {
 	ERR_FAIL_COND_V(!_start_success, false);
 
@@ -2232,11 +2236,13 @@ bool Main::start() {
 #endif
 
 	MainLoop *main_loop = nullptr;
+	//编辑器的MainLoop
 	if (editor) {
 		main_loop = memnew(SceneTree);
 	}
 	String main_loop_type = GLOBAL_DEF("application/run/main_loop_type", "SceneTree");
 
+	//脚本的MainLoop
 	if (!script.is_empty()) {
 		Ref<Script> script_res = ResourceLoader::load(script);
 		ERR_FAIL_COND_V_MSG(script_res.is_null(), false, "Can't load script: " + script);
@@ -2655,6 +2661,9 @@ bool Main::is_iterating() {
 static uint64_t physics_process_max = 0;
 static uint64_t process_max = 0;
 
+//MainLoop
+// 更新游戏逻辑，包括物理/音效/脚步等模块
+// 渲染
 bool Main::iteration() {
 	//for now do not error on this
 	//ERR_FAIL_COND_V(iterating, false);
@@ -2665,7 +2674,7 @@ bool Main::iteration() {
 	Engine::get_singleton()->_frame_ticks = ticks;
 	main_timer_sync.set_cpu_ticks_usec(ticks);
 	main_timer_sync.set_fixed_fps(fixed_fps);
-
+	//前后两帧的时间差(deltaTime)
 	const uint64_t ticks_elapsed = ticks - last_ticks;
 
 	const int physics_ticks_per_second = Engine::get_singleton()->get_physics_ticks_per_second();
