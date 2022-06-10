@@ -32,7 +32,7 @@
 #define PARTICLES_2D_H
 
 #include "scene/2d/node_2d.h"
-
+//gpu粒子系统
 class GPUParticles2D : public Node2D {
 private:
 	GDCLASS(GPUParticles2D, Node2D);
@@ -47,13 +47,13 @@ public:
 private:
 	RID particles;
 
-	bool one_shot = false;
+	bool one_shot = false;//是否是一次性
 	int amount = 0;
-	double lifetime = 0.0;
-	double pre_process_time = 0.0;
+	double lifetime = 0.0;//粒子的寿命
+	double pre_process_time = 0.0;//预处理，用于让系统在第一次实际绘制之前处理给定的秒数.
 	real_t explosiveness_ratio = 0.0;
 	real_t randomness_ratio = 0.0;
-	double speed_scale = 0.0;
+	double speed_scale = 0.0;//速度比例，用于调整粒子系统的速度. 降低值会使粒子变慢, 而增加值会使粒子更快.
 	Rect2 visibility_rect;
 	bool local_coords = false;
 	int fixed_fps = 0;
@@ -62,11 +62,11 @@ private:
 #ifdef TOOLS_ENABLED
 	bool show_visibility_rect = false;
 #endif
-	Ref<Material> process_material;
+	Ref<Material> process_material;//粒子运行的材质
 
 	DrawOrder draw_order;
 
-	Ref<Texture2D> texture;
+	Ref<Texture2D> texture;//纹理，目前只能使用单个纹理，未来可能使用spriteSheet来扩展到动画纹理
 
 	void _update_particle_emission_transform();
 

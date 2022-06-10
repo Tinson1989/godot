@@ -34,6 +34,7 @@
 #include "scene/main/node.h"
 
 class Viewport;
+//画布层
 class CanvasLayer : public Node {
 	GDCLASS(CanvasLayer, Node);
 
@@ -41,8 +42,8 @@ class CanvasLayer : public Node {
 	Vector2 ofs;
 	Size2 scale = Vector2(1, 1);
 	real_t rot = 0.0;
-	int layer = 1;
-	Transform2D transform;
+	int layer = 1;//数字较大的图层将绘制在数字较小的图层之上
+	Transform2D transform;//CanvasLayer 也有自己的变换，不受其他层的影响。这使得当我们对游戏世界的观察发生变化时，UI 可以固定在屏幕空间中。
 	RID canvas;
 
 	ObjectID custom_viewport_id; // to check validity

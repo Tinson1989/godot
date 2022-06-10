@@ -40,7 +40,7 @@
 -Emitter positions deformable by bones
 -Proper trails
 */
-
+//粒子材质
 class ParticlesMaterial : public Material {
 	GDCLASS(ParticlesMaterial, Material);
 

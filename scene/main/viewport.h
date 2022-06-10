@@ -85,6 +85,7 @@ public:
 	~ViewportTexture();
 };
 
+//视窗
 class Viewport : public Node {
 	GDCLASS(Viewport, Node);
 
@@ -216,7 +217,7 @@ private:
 	bool override_canvas_transform = false;
 
 	Transform2D canvas_transform_override;
-	Transform2D canvas_transform;
+	Transform2D canvas_transform;//对它所包含的CanvasItem层级施加一个自定义的Transform2D变换
 	Transform2D global_canvas_transform;
 	Transform2D stretch_transform;
 
@@ -393,7 +394,7 @@ private:
 	void _gui_cleanup_internal_state(Ref<InputEvent> p_event);
 
 	_FORCE_INLINE_ Transform2D _get_input_pre_xform() const;
-
+	//InputEvent 坐标转换为本地 CanvasItem 坐标
 	Ref<InputEvent> _make_input_local(const Ref<InputEvent> &ev);
 
 	friend class Control;

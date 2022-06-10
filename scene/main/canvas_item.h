@@ -41,7 +41,7 @@ class StyleBox;
 class Window;
 class World2D;
 
-//CanvasItem 是所有 2D 节点的基类
+//画布项，是所有 2D 节点的基类
 class CanvasItem : public Node {
 	GDCLASS(CanvasItem, Node);
 
@@ -258,7 +258,7 @@ public:
 	CanvasItem *get_parent_item() const;
 
 	virtual Transform2D get_transform() const = 0;
-
+	//画布坐标
 	virtual Transform2D get_global_transform() const;
 	virtual Transform2D get_global_transform_with_canvas() const;
 	virtual Transform2D get_screen_transform() const;

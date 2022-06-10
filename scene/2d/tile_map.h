@@ -108,6 +108,10 @@ struct TileMapQuadrant {
 	}
 };
 
+//图块地图
+//首先, 它们可以通过将图块 "绘制" 到网格上来绘制布局, 这比逐个放置单个 Sprite 节点快得多；
+//其次, 它们允许更大的关卡, 因为它们针对绘制大量图块进行了优化.
+//最后, 您可以为图块添加碰撞, 遮挡和导航形状, 从而为图块地图添加其他功能.
 class TileMap : public Node2D {
 	GDCLASS(TileMap, Node2D);
 
