@@ -140,7 +140,7 @@ void register_core_types() {
 
 	resource_format_image.instantiate();
 	ResourceLoader::add_resource_format_loader(resource_format_image);
-
+	//TODO-Tinson 不同的注册类型有什么区别呢？
 	GDREGISTER_CLASS(Object);
 
 	GDREGISTER_ABSTRACT_CLASS(Script);

@@ -44,15 +44,15 @@ class CSGShape3D : public GeometryInstance3D {
 
 public:
 	enum Operation {
-		OPERATION_UNION,
-		OPERATION_INTERSECTION,
-		OPERATION_SUBTRACTION,
+		OPERATION_UNION,//合并
+		OPERATION_INTERSECTION,//相交
+		OPERATION_SUBTRACTION,//相减
 
 	};
 
 private:
-	Operation operation = OPERATION_UNION;
-	CSGShape3D *parent_shape = nullptr;
+	Operation operation = OPERATION_UNION;//操作，默认是合并
+	CSGShape3D *parent_shape = nullptr;//形状
 
 	CSGBrush *brush = nullptr;
 
@@ -82,11 +82,11 @@ private:
 	};
 
 	struct ShapeUpdateSurface {
-		Vector<Vector3> vertices;
-		Vector<Vector3> normals;
+		Vector<Vector3> vertices;//顶点数据
+		Vector<Vector3> normals;//发现
 		Vector<Vector2> uvs;
-		Vector<real_t> tans;
-		Ref<Material> material;
+		Vector<real_t> tans;//切线
+		Ref<Material> material;//材质
 		int last_added = 0;
 
 		Vector3 *verticesw = nullptr;

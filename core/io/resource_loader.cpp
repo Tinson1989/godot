@@ -1015,12 +1015,12 @@ void ResourceLoader::remove_custom_loaders() {
 }
 
 void ResourceLoader::initialize() {
-	thread_load_mutex = memnew(Mutex);
-	thread_load_max = OS::get_singleton()->get_processor_count();
-	thread_loading_count = 0;
-	thread_waiting_count = 0;
-	thread_suspended_count = 0;
-	thread_load_semaphore = memnew(Semaphore);
+	thread_load_mutex = memnew(Mutex);//加载线程锁
+	thread_load_max = OS::get_singleton()->get_processor_count();//加载线程的最大数量
+	thread_loading_count = 0;//加载的线程数
+	thread_waiting_count = 0;//等待的线程数
+	thread_suspended_count = 0;//挂起的线程数
+	thread_load_semaphore = memnew(Semaphore);//信号量
 }
 
 void ResourceLoader::finalize() {

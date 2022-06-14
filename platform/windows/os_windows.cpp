@@ -170,17 +170,17 @@ void OS_Windows::initialize() {
 
 	NetSocketPosix::make_default();
 
-	// We need to know how often the clock is updated
+	// We need to know how often the clock is updated	 我们需要知道时钟多久更新一次
 	QueryPerformanceFrequency((LARGE_INTEGER *)&ticks_per_second);
 	QueryPerformanceCounter((LARGE_INTEGER *)&ticks_start);
-
+	//为周期性定时器设置最小分辨率，否则即使对于像 Sleep(1) 这样的调用，Sleep(n) 可能至少等待 Windows 调度程序的分辨率（~16-30ms）
 	// set minimum resolution for periodic timers, otherwise Sleep(n) may wait at least as
 	//  long as the windows scheduler resolution (~16-30ms) even for calls like Sleep(1)
 	timeBeginPeriod(1);
-
+	//线程信息
 	process_map = memnew((HashMap<ProcessID, ProcessInfo>));
 
-	// Add current Godot PID to the list of known PIDs
+	// Add current Godot PID to the list of known PIDs将当前 Godot PID 添加到已知 PID 列表中
 	ProcessInfo current_pi = {};
 	PROCESS_INFORMATION current_pi_pi = {};
 	current_pi.pi = current_pi_pi;
