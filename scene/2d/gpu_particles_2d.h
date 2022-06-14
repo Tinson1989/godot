@@ -39,8 +39,8 @@ private:
 
 public:
 	enum DrawOrder {
-		DRAW_ORDER_INDEX,
-		DRAW_ORDER_LIFETIME,
+		DRAW_ORDER_INDEX,//表示按照发射顺序被绘制
+		DRAW_ORDER_LIFETIME,//表示按照剩余寿命的顺序被绘制
 		DRAW_ORDER_REVERSE_LIFETIME,
 	};
 
@@ -51,20 +51,20 @@ private:
 	int amount = 0;
 	double lifetime = 0.0;//粒子的寿命
 	double pre_process_time = 0.0;//预处理，用于让系统在第一次实际绘制之前处理给定的秒数.
-	real_t explosiveness_ratio = 0.0;
-	real_t randomness_ratio = 0.0;
+	real_t explosiveness_ratio = 0.0;//爆炸性【0定期发射粒子（默认值） 1同时发射所有粒子】
+	real_t randomness_ratio = 0.0;//随机性 initial_value = param_value + param_value * randomness
 	double speed_scale = 0.0;//速度比例，用于调整粒子系统的速度. 降低值会使粒子变慢, 而增加值会使粒子更快.
-	Rect2 visibility_rect;
-	bool local_coords = false;
-	int fixed_fps = 0;
-	bool fractional_delta = false;
+	Rect2 visibility_rect;//绘图参数，可见性区域，w和h表示宽度和高度，x和y控制矩形左上角相对粒子发射器的位置
+	bool local_coords = false;//局部坐标， 此选项处于启用状态, 这意味着粒子发射的空间是相对于节点来算的. 如果移动节点, 则所有粒子会随之移动，如果禁用, 粒子将发射到全局空间, 这意味着如果移动节点, 则已发射的粒子不会受到影响:
+	int fixed_fps = 0;//固定频率，以固定的频率渲染（2，则是每秒两帧率），不会减慢粒子系统本身的速度
+	bool fractional_delta = false;//打开或者关闭Fract Delta
 	bool interpolate = true;
 #ifdef TOOLS_ENABLED
 	bool show_visibility_rect = false;
 #endif
 	Ref<Material> process_material;//粒子运行的材质
 
-	DrawOrder draw_order;
+	DrawOrder draw_order;//绘图顺序
 
 	Ref<Texture2D> texture;//纹理，目前只能使用单个纹理，未来可能使用spriteSheet来扩展到动画纹理
 

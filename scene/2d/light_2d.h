@@ -45,9 +45,10 @@ public:
 	};
 
 	enum BlendMode {
-		BLEND_MODE_ADD,
-		BLEND_MODE_SUB,
-		BLEND_MODE_MIX,
+		BLEND_MODE_ADD,//将光纹理的颜色添加到场景中. 它会照亮灯光下的区域.
+		BLEND_MODE_SUB,//从场景中减去光的颜色. 它使灯光下的区域变暗.
+		BLEND_MODE_MIX,//混合了灯光的颜色和底层场景. 产生的亮度介于灯光颜色和下方颜色之间.
+		//Mask 用于遮盖灯光覆盖的区域. 根据光的颜色隐藏或显示遮盖区域.
 	};
 
 private:

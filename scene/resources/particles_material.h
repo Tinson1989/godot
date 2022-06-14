@@ -237,9 +237,9 @@ private:
 	_FORCE_INLINE_ bool _is_shader_dirty() const;
 
 	bool is_initialized = false;
-	Vector3 direction;
-	float spread = 0.0f;
-	float flatness = 0.0f;
+	Vector3 direction;//方向
+	float spread = 0.0f;//铺开角度，度，
+	float flatness = 0.0f;//平直度，只对3d粒子有用
 
 	float params_min[PARAM_MAX];
 	float params_max[PARAM_MAX];
@@ -265,7 +265,7 @@ private:
 
 	bool anim_loop = false;
 
-	Vector3 gravity;
+	Vector3 gravity;//重力
 
 	double lifetime_randomness = 0.0;
 
