@@ -136,11 +136,11 @@ public:
 	};
 
 	enum DebugDraw {
-		DEBUG_DRAW_DISABLED,
-		DEBUG_DRAW_UNSHADED,
+		DEBUG_DRAW_DISABLED,//禁用
+		DEBUG_DRAW_UNSHADED,//扁平颜色
 		DEBUG_DRAW_LIGHTING,
-		DEBUG_DRAW_OVERDRAW,
-		DEBUG_DRAW_WIREFRAME,
+		DEBUG_DRAW_OVERDRAW,//添加剂混合绘制半透明的网格
+		DEBUG_DRAW_WIREFRAME,//三角形网格
 		DEBUG_DRAW_NORMAL_BUFFER,
 		DEBUG_DRAW_VOXEL_GI_ALBEDO,
 		DEBUG_DRAW_VOXEL_GI_LIGHTING,
@@ -221,8 +221,8 @@ private:
 	Transform2D global_canvas_transform;
 	Transform2D stretch_transform;
 
-	Size2i size = Size2i(512, 512);
-	Size2i size_2d_override;
+	Size2i size = Size2i(512, 512);//viewport的尺寸，单位是像素
+	Size2i size_2d_override;//用来缩放2D内容，使其分辨率与指定的尺寸不同
 	bool size_allocated = false;
 
 	RID contact_2d_debug;
@@ -265,7 +265,7 @@ private:
 	HashMap<Pair<ObjectID, int>, uint64_t, PairHash<ObjectID, int>> physics_2d_shape_mouseover;
 	// Cleans up colliders corresponding to old frames or all of them.
 	void _cleanup_mouseover_colliders(bool p_clean_all_frames, bool p_paused_only, uint64_t p_frame_reference = 0);
-
+	//每个viewport都包含自己的world2d，如果需要共享，需要手动设置
 	Ref<World2D> world_2d;
 
 	Rect2i to_screen_rect;
@@ -285,7 +285,7 @@ private:
 
 	RID texture_rid;
 
-	DebugDraw debug_draw = DEBUG_DRAW_DISABLED;
+	DebugDraw debug_draw = DEBUG_DRAW_DISABLED;//自定义内部绘制方式，默认禁用
 
 	int shadow_atlas_size = 2048;
 	bool shadow_atlas_16_bits = true;
@@ -375,6 +375,7 @@ private:
 		bool subwindow_drag_close_inside = false;
 		SubWindowResize subwindow_resize_mode;
 		Rect2i subwindow_resize_from_rect;
+		Rect2i subwindow_resize_from_rect;
 
 		Vector<SubWindow> sub_windows; // Don't obtain references or pointers to the elements, as their location can change.
 	} gui;
@@ -382,7 +383,7 @@ private:
 	DefaultCanvasItemTextureFilter default_canvas_item_texture_filter = DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_LINEAR;
 	DefaultCanvasItemTextureRepeat default_canvas_item_texture_repeat = DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_DISABLED;
 
-	bool disable_input = false;
+	bool disable_input = false;//是否接受输入事件
 
 	bool _gui_call_input(Control *p_control, const Ref<InputEvent> &p_input);
 	void _gui_call_notification(Control *p_control, int p_what);
@@ -675,7 +676,7 @@ public:
 
 	void set_disable_3d(bool p_disable);
 	bool is_3d_disabled() const;
-
+	//连接物理和渲染的宇宙，默认只有根viewport包含，如果子viewport设置World，就回切断其所有子节点与父viewport的world的交互
 	Ref<World3D> world_3d;
 	Ref<World3D> own_world_3d;
 	void set_world_3d(const Ref<World3D> &p_world_3d);
@@ -700,9 +701,9 @@ class SubViewport : public Viewport {
 
 public:
 	enum ClearMode {
-		CLEAR_MODE_ALWAYS,
-		CLEAR_MODE_NEVER,
-		CLEAR_MODE_ONCE
+		CLEAR_MODE_ALWAYS,//每一帧都清理
+		CLEAR_MODE_NEVER,//永远不清理
+		CLEAR_MODE_ONCE//下一帧清理，然后设置为NEVER，文档里是Next Frame
 	};
 
 	enum UpdateMode {
