@@ -78,7 +78,7 @@ private:
 	mutable SelfList<Node> xform_change;
 
 	struct Data {
-		mutable Transform3D global_transform;
+		mutable Transform3D global_transform;//世界坐标变换
 		mutable Transform3D local_transform;
 		mutable Basis::EulerOrder rotation_order = Basis::EULER_ORDER_YXZ;
 		mutable Vector3 rotation;

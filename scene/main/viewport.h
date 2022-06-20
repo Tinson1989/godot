@@ -375,7 +375,6 @@ private:
 		bool subwindow_drag_close_inside = false;
 		SubWindowResize subwindow_resize_mode;
 		Rect2i subwindow_resize_from_rect;
-		Rect2i subwindow_resize_from_rect;
 
 		Vector<SubWindow> sub_windows; // Don't obtain references or pointers to the elements, as their location can change.
 	} gui;

@@ -760,9 +760,9 @@ public:
 
 	// Some script languages can't control instance creation, so this function eases the process.
 	void set_script_and_instance(const Variant &p_script, ScriptInstance *p_instance);
-
+	//添加用户自定义信号
 	void add_user_signal(const MethodInfo &p_signal);
-
+	//发送信号
 	template <typename... VarArgs>
 	Error emit_signal(const StringName &p_name, VarArgs... p_args) {
 		Variant args[sizeof...(p_args) + 1] = { p_args..., Variant() }; // +1 makes sure zero sized arrays are also supported.
@@ -772,9 +772,11 @@ public:
 		}
 		return emit_signalp(p_name, sizeof...(p_args) == 0 ? nullptr : (const Variant **)argptrs, sizeof...(p_args));
 	}
-
+	//==============================信号相关的内容================================================
 	Error emit_signalp(const StringName &p_name, const Variant **p_args, int p_argcount);
+	//判断是否有信号
 	bool has_signal(const StringName &p_name) const;
+
 	void get_signal_list(List<MethodInfo> *p_signals) const;
 	void get_signal_connection_list(const StringName &p_signal, List<Connection> *p_connections) const;
 	void get_all_signal_connections(List<Connection> *p_connections) const;

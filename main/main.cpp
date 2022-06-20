@@ -821,10 +821,10 @@ Error Main::setup(const char *execpath, int argc, char *argv[], bool p_second_ph
 				OS::get_singleton()->print("Missing rendering driver argument, aborting.\n");
 				goto error;
 			}
-		} else if (I->get() == "-f" || I->get() == "--fullscreen") { // force fullscreen
+		} else if (I->get() == "-f" || I->get() == "--fullscreen") { // force fullscreen强制全屏
 
 			init_fullscreen = true;
-		} else if (I->get() == "-m" || I->get() == "--maximized") { // force maximized window
+		} else if (I->get() == "-m" || I->get() == "--maximized") { // force maximized window 强制最大尺寸
 
 			init_maximized = true;
 			window_mode = DisplayServer::WINDOW_MODE_MAXIMIZED;
